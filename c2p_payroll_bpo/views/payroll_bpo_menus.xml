@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_bpo_root" name="BPO Control Tower"
+              parent="hr_payroll.menu_hr_payroll_root" sequence="5"
+              groups="c2p_payroll_bpo.group_ey_payroll_officer"/>
+    <menuitem id="menu_bpo_cycles" name="Payroll Cycles" parent="menu_bpo_root"
+              action="action_cycle" sequence="10"/>
+    <menuitem id="menu_bpo_clients" name="Clients" parent="menu_bpo_root"
+              action="action_client_config" sequence="20"/>
+    <menuitem id="menu_bpo_onboard" name="Onboard Client" parent="menu_bpo_root"
+              action="action_client_onboard" sequence="30"
+              groups="c2p_payroll_bpo.group_ey_payroll_manager"/>
+</odoo>

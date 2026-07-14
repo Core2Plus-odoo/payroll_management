@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_client_config_form" model="ir.ui.view">
+        <field name="name">payroll.client.config.form</field>
+        <field name="model">payroll.client.config</field>
+        <field name="arch" type="xml">
+            <form string="Client Payroll Config">
+                <header>
+                    <button name="action_lock_structure" type="object" string="Lock Structure"
+                            class="btn-primary" invisible="structure_locked or not structure_id"/>
+                    <button name="action_unlock_structure" type="object" string="Unlock"
+                            class="btn-secondary" invisible="not structure_locked"
+                            groups="c2p_payroll_bpo.group_ey_payroll_manager"
+                            confirm="Unlock this client's payroll structure for reconfiguration?"/>
+                    <button name="action_new_cycle" type="object" string="Run Monthly Cycle"
+                            class="btn-primary" invisible="not structure_locked"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Structure Locked" bg_color="text-bg-success"
+                            invisible="not structure_locked"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_cycles" type="object" class="oe_stat_button" icon="fa-calendar">
+                            <field name="cycle_count" widget="statinfo" string="Cycles"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="country_id"/>
+                            <field name="structure_id" readonly="structure_locked"/>
+                        </group>
+                        <group>
+                            <field name="structure_locked"/>
+                            <field name="locked_by" invisible="not structure_locked"/>
+                            <field name="locked_on" invisible="not structure_locked"/>
+                            <field name="monthly_wage_locked"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Officers">
+                            <field name="officer_ids" widget="many2many_tags"/>
+                        </page>
+                        <page string="Import Profiles">
+                            <field name="import_profile_ids">
+                                <list><field name="name"/><field name="doc_type"/><field name="period"/></list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_client_config_list" model="ir.ui.view">
+        <field name="name">payroll.client.config.list</field>
+        <field name="model">payroll.client.config</field>
+        <field name="arch" type="xml">
+            <list string="Clients">
+                <field name="company_id"/>
+                <field name="country_id"/>
+                <field name="structure_id"/>
+                <field name="structure_locked" widget="boolean_toggle"/>
+                <field name="cycle_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_client_config" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="res_model">payroll.client.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

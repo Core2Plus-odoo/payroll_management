@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_client_config_officer,client.config.officer,model_payroll_client_config,group_ey_payroll_officer,1,1,1,0
+access_client_config_mgr,client.config.mgr,model_payroll_client_config,group_ey_payroll_manager,1,1,1,1
+access_client_config_hr,client.config.hr,model_payroll_client_config,group_client_hr,1,0,0,0
+access_cycle_officer,cycle.officer,model_payroll_cycle,group_ey_payroll_officer,1,1,1,0
+access_cycle_mgr,cycle.mgr,model_payroll_cycle,group_ey_payroll_manager,1,1,1,1
+access_cycle_hr,cycle.hr,model_payroll_cycle,group_client_hr,1,0,0,0
+access_cycle_stage_user,cycle.stage.user,model_payroll_cycle_stage,hr_payroll.group_hr_payroll_user,1,0,0,0
+access_cycle_stage_mgr,cycle.stage.mgr,model_payroll_cycle_stage,group_ey_payroll_manager,1,1,1,1
+access_onboard_mgr,onboard.mgr,model_payroll_client_onboard,group_ey_payroll_manager,1,1,1,1

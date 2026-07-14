@@ -5,7 +5,7 @@
     "category": "Human Resources/Payroll",
     "author": "Core2Plus",
     "license": "LGPL-3",
-    "depends": ["hr_payroll", "hr_payroll_account", "c2p_payroll_import", "mail"],
+    "depends": ["hr_payroll", "hr_payroll_account", "c2p_payroll_rates", "c2p_payroll_import", "mail"],
     "data": [
         "security/payroll_bpo_groups.xml",
         "security/payroll_bpo_rules.xml",
