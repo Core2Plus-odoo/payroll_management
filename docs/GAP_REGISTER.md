@@ -2,6 +2,13 @@
 
 Every custom model in this repo appears here. No entry → the code gets reverted.
 
+> 🏗️ **Build status (Phases 2–6 implemented).** `c2p_payroll_rates` (G5), `c2p_l10n_pk_hr_payroll`
+> (G4), `c2p_payroll_import` (G1), `c2p_payroll_bpo` (G2+G3) and `c2p_payroll_demo` are built. The
+> statutory arithmetic is proven by `scripts/verify_golden.py` (162/162 golden lines to the penny, no
+> Odoo needed). The Odoo module wiring still needs one `make init && make test` pass on an Odoo.sh dev
+> build — see the two residual items in `docs/VERIFICATION_ODOO19.md §9` (the `categories.*` sandbox
+> object type, and whether the standard `l10n_pk_hr_payroll` supersedes G4).
+
 > ⚠️ **Reconciled to Odoo 19 — see `docs/VERIFICATION_ODOO19.md`.** Two verdicts below changed since
 > this was written for Odoo 18:
 > - **G4** — Odoo 19 now ships a **Pakistan payroll localization** (`l10n_pk_hr_payroll`). G4's
