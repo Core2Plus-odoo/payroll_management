@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="input_ot_h" model="hr.payslip.input.type"><field name="name">Overtime Hours</field><field name="code">OT_H</field></record>
+    <record id="input_absent_d" model="hr.payslip.input.type"><field name="name">Absent / Unpaid Days</field><field name="code">ABSENT_D</field></record>
+    <record id="input_bonus" model="hr.payslip.input.type"><field name="name">Bonus</field><field name="code">BONUS</field></record>
+    <record id="input_comm" model="hr.payslip.input.type"><field name="name">Commission</field><field name="code">COMM</field></record>
+    <record id="input_shift_alw" model="hr.payslip.input.type"><field name="name">Shift / Night Allowance</field><field name="code">SHIFT_ALW</field></record>
+    <record id="input_oth_ded" model="hr.payslip.input.type"><field name="name">Other Deduction</field><field name="code">OTH_DED</field></record>
+</odoo>

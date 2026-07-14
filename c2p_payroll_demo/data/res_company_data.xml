@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Activate the two currencies the platform runs in. -->
+    <record id="base.PKR" model="res.currency"><field name="active">True</field></record>
+    <record id="base.AED" model="res.currency"><field name="active">True</field></record>
+
+    <!-- BPO umbrella + one company per client (blueprint §2: never a client_id field). -->
+    <record id="company_ey" model="res.company">
+        <field name="name">EY Payroll Services</field>
+    </record>
+    <record id="company_itm" model="res.company">
+        <field name="name">Indus Textile Mills (Pvt) Ltd</field>
+        <field name="parent_id" ref="company_ey"/>
+        <field name="country_id" ref="base.pk"/><field name="currency_id" ref="base.PKR"/>
+    </record>
+    <record id="company_fsl" model="res.company">
+        <field name="name">Falcon Software (Pvt) Ltd</field>
+        <field name="parent_id" ref="company_ey"/>
+        <field name="country_id" ref="base.pk"/><field name="currency_id" ref="base.PKR"/>
+    </record>
+    <record id="company_mbs" model="res.company">
+        <field name="name">Meridian BPO Services (Pvt) Ltd</field>
+        <field name="parent_id" ref="company_ey"/>
+        <field name="country_id" ref="base.pk"/><field name="currency_id" ref="base.PKR"/>
+    </record>
+    <record id="company_grl" model="res.company">
+        <field name="name">Gulf Retail LLC</field>
+        <field name="parent_id" ref="company_ey"/>
+        <field name="country_id" ref="base.ae"/><field name="currency_id" ref="base.AED"/>
+    </record>
+
+    <!-- Client payroll configs, structure assigned and LOCKED, ready to run monthly. -->
+    <record id="config_itm" model="payroll.client.config">
+        <field name="company_id" ref="company_itm"/><field name="structure_id" ref="struct_ss_itm_factory"/>
+        <field name="structure_locked" eval="True"/></record>
+    <record id="config_fsl" model="payroll.client.config">
+        <field name="company_id" ref="company_fsl"/><field name="structure_id" ref="struct_ss_fsl_whitecollar"/>
+        <field name="structure_locked" eval="True"/></record>
+    <record id="config_mbs" model="payroll.client.config">
+        <field name="company_id" ref="company_mbs"/><field name="structure_id" ref="struct_ss_mbs_callcentre"/>
+        <field name="structure_locked" eval="True"/></record>
+    <record id="config_grl" model="payroll.client.config">
+        <field name="company_id" ref="company_grl"/><field name="structure_id" ref="struct_ss_grl_retail"/>
+        <field name="structure_locked" eval="True"/></record>
+</odoo>

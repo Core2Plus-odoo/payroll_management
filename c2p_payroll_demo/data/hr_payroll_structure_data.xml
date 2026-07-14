@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+  <record id="struct_ss_itm_factory" model="hr.payroll.structure">
+    <field name="name">ITM — Factory / Blue Collar</field>
+    <field name="type_id" ref="c2p_l10n_pk_hr_payroll.structure_type_pk_monthly"/>
+  </record>
+  <record id="struct_ss_fsl_whitecollar" model="hr.payroll.structure">
+    <field name="name">FSL — IT White Collar + PF</field>
+    <field name="type_id" ref="c2p_l10n_pk_hr_payroll.structure_type_pk_monthly"/>
+  </record>
+  <record id="struct_ss_mbs_callcentre" model="hr.payroll.structure">
+    <field name="name">MBS — Call Centre + Shift/Commission</field>
+    <field name="type_id" ref="c2p_l10n_pk_hr_payroll.structure_type_pk_monthly"/>
+  </record>
+  <record id="struct_ss_grl_retail" model="hr.payroll.structure">
+    <field name="name">GRL — UAE Retail</field>
+    <field name="type_id" ref="structure_type_uae_monthly"/>
+  </record>
+</odoo>

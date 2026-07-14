@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- UAE rate-engine values (the l10n_ae payroll rules themselves are standard). Source: sheet 11. -->
+    <record id="rate_ae_monthly_days" model="payroll.statutory.rate">
+        <field name="key">monthly_days</field><field name="value_num">30</field><field name="unit">days</field>
+        <field name="country_id" ref="base.ae"/><field name="date_from">2025-01-01</field><field name="state">active</field>
+        <field name="source_reference">UAE divisor — 30, not 26</field></record>
+    <record id="rate_ae_ot_multiplier" model="payroll.statutory.rate">
+        <field name="key">ot_multiplier</field><field name="value_num">1.25</field><field name="unit">x</field>
+        <field name="country_id" ref="base.ae"/><field name="date_from">2025-01-01</field><field name="state">active</field>
+        <field name="source_reference">UAE Labour Law — 1.5x for night/holiday</field></record>
+    <record id="rate_ae_eosb_days" model="payroll.statutory.rate">
+        <field name="key">eosb_days_per_year</field><field name="value_num">21</field><field name="unit">days</field>
+        <field name="country_id" ref="base.ae"/><field name="date_from">2025-01-01</field><field name="state">active</field>
+        <field name="source_reference">First 5 years; 30 days thereafter</field></record>
+    <record id="rate_ae_income_tax_applies" model="payroll.statutory.rate">
+        <field name="key">income_tax_applies</field><field name="value_num">0</field><field name="unit">bool</field>
+        <field name="country_id" ref="base.ae"/><field name="date_from">2025-01-01</field><field name="state">active</field>
+        <field name="source_reference">No personal income tax — the UAE structure simply omits the TAX rule</field></record>
+</odoo>

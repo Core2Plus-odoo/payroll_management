@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+      Pakistan statutory rates, seeded into the rate engine (payroll.statutory.rate).
+      PLACEHOLDERS pending gazetted Finance Act 2025 / provincial notifications — see
+      docs/PAKISTAN_PAYROLL.md §3. Source of truth: EY_Payroll_Master_Data.xlsx sheet 11.
+      Every one of these is read by a salary rule via payslip.rate('key') — never a literal.
+    -->
+
+    <!-- Minimum wage — per province, effective-dated. EOBI is a % of THIS, not of actual salary. -->
+    <record id="rate_min_wage_sindh" model="payroll.statutory.rate">
+        <field name="key">min_wage</field><field name="value_num">37000</field><field name="unit">PKR/month</field>
+        <field name="country_id" ref="base.pk"/><field name="province">Sindh</field>
+        <field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Sindh Minimum Wages Board notification — VERIFY</field>
+    </record>
+    <record id="rate_min_wage_punjab" model="payroll.statutory.rate">
+        <field name="key">min_wage</field><field name="value_num">37000</field><field name="unit">PKR/month</field>
+        <field name="country_id" ref="base.pk"/><field name="province">Punjab</field>
+        <field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Punjab notification — VERIFY</field>
+    </record>
+    <record id="rate_min_wage_ict" model="payroll.statutory.rate">
+        <field name="key">min_wage</field><field name="value_num">37000</field><field name="unit">PKR/month</field>
+        <field name="country_id" ref="base.pk"/><field name="province">ICT</field>
+        <field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Federal notification — VERIFY</field>
+    </record>
+    <record id="rate_min_wage_sindh_prior" model="payroll.statutory.rate">
+        <field name="key">min_wage</field><field name="value_num">32000</field><field name="unit">PKR/month</field>
+        <field name="country_id" ref="base.pk"/><field name="province">Sindh</field>
+        <field name="date_from">2024-07-01</field><field name="date_to">2025-06-30</field>
+        <field name="state">archived</field><field name="source_reference">Prior year — archived, kept for audit</field>
+    </record>
+
+    <!-- EOBI -->
+    <record id="rate_eobi_ee" model="payroll.statutory.rate">
+        <field name="key">eobi_ee_rate</field><field name="value_num">0.01</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">EOBI Act 1976 — 1% of MINIMUM WAGE, not of salary</field>
+    </record>
+    <record id="rate_eobi_er" model="payroll.statutory.rate">
+        <field name="key">eobi_er_rate</field><field name="value_num">0.05</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">EOBI Act 1976 — 5% of minimum wage</field>
+    </record>
+    <record id="rate_eobi_base" model="payroll.statutory.rate">
+        <field name="key">eobi_base</field><field name="value_char">min_wage</field><field name="unit">key-ref</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Base for EOBI = minimum wage. Change to 'gross' if law changes.</field>
+    </record>
+
+    <!-- Provincial social security (employer only) -->
+    <record id="rate_ss_er_sindh" model="payroll.statutory.rate">
+        <field name="key">ss_er_rate</field><field name="value_num">0.06</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="province">Sindh</field>
+        <field name="date_from">2025-07-01</field><field name="state">active</field><field name="source_reference">SESSI</field>
+    </record>
+    <record id="rate_ss_er_punjab" model="payroll.statutory.rate">
+        <field name="key">ss_er_rate</field><field name="value_num">0.06</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="province">Punjab</field>
+        <field name="date_from">2025-07-01</field><field name="state">active</field><field name="source_reference">PESSI</field>
+    </record>
+    <record id="rate_ss_er_ict" model="payroll.statutory.rate">
+        <field name="key">ss_er_rate</field><field name="value_num">0.06</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="province">ICT</field>
+        <field name="date_from">2025-07-01</field><field name="state">active</field><field name="source_reference">Federal ESSI</field>
+    </record>
+
+    <!-- Provident fund — country default. FSL's 10% company override lives in the demo module,
+         future-dated so it never alters validated history. -->
+    <record id="rate_pf_country" model="payroll.statutory.rate">
+        <field name="key">pf_rate</field><field name="value_num">0.0833</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Provident fund — 1/12 of basic</field>
+    </record>
+
+    <!-- Divisor / overtime multiplier / exemptions / surcharge / tax year -->
+    <record id="rate_monthly_days_pk" model="payroll.statutory.rate">
+        <field name="key">monthly_days</field><field name="value_num">26</field><field name="unit">days</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Factory divisor — Factories Act 1934</field>
+    </record>
+    <record id="rate_ot_multiplier_pk" model="payroll.statutory.rate">
+        <field name="key">ot_multiplier</field><field name="value_num">2</field><field name="unit">x</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Factories Act 1934 s.59</field>
+    </record>
+    <record id="rate_medical_exempt" model="payroll.statutory.rate">
+        <field name="key">medical_exempt_pct_of_basic</field><field name="value_num">0.1</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">2nd Sch, Pt I, cl.139 — exempt up to 10% of basic</field>
+    </record>
+    <record id="rate_surcharge_threshold" model="payroll.statutory.rate">
+        <field name="key">surcharge_threshold</field><field name="value_num">10000000</field><field name="unit">PKR/year</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Surcharge on tax above this taxable income — VERIFY</field>
+    </record>
+    <record id="rate_surcharge_rate" model="payroll.statutory.rate">
+        <field name="key">surcharge_rate</field><field name="value_num">0.1</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">VERIFY against Finance Act 2025</field>
+    </record>
+    <record id="rate_tax_year_start_pk" model="payroll.statutory.rate">
+        <field name="key">tax_year_start</field><field name="value_char">07-01</field><field name="unit">MM-DD</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">Pakistan tax year: 1 July – 30 June</field>
+    </record>
+    <record id="rate_income_tax_applies_pk" model="payroll.statutory.rate">
+        <field name="key">income_tax_applies</field><field name="value_num">1</field><field name="unit">bool</field>
+        <field name="country_id" ref="base.pk"/><field name="date_from">2025-07-01</field><field name="state">active</field>
+        <field name="source_reference">s.149 withholding applies</field>
+    </record>
+
+</odoo>

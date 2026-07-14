@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+  <record id="rule_ss_itm_factory_basic" model="hr.salary.rule">
+    <field name="code">BASIC</field>
+    <field name="name">Basic Wage</field>
+    <field name="sequence">10</field>
+    <field name="category_id" ref="cat_basic"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage</field>
+  </record>
+  <record id="rule_ss_itm_factory_ot2x" model="hr.salary.rule">
+    <field name="code">OT2X</field>
+    <field name="name">Overtime @2x</field>
+    <field name="sequence">20</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('OT_H') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC / payslip.rate('monthly_days') / 8) * payslip.rate('ot_multiplier') * payslip.inp('OT_H')</field>
+  </record>
+  <record id="rule_ss_itm_factory_attbon" model="hr.salary.rule">
+    <field name="code">ATTBON</field>
+    <field name="name">Attendance Bonus</field>
+    <field name="sequence">30</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('BONUS') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.inp('BONUS')</field>
+  </record>
+  <record id="rule_ss_itm_factory_absent" model="hr.salary.rule">
+    <field name="code">ABSENT</field>
+    <field name="name">Absence Deduction</field>
+    <field name="sequence">70</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('ABSENT_D') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -((categories.BASIC / payslip.rate('monthly_days')) * payslip.inp('ABSENT_D'))</field>
+  </record>
+  <record id="rule_ss_itm_factory_othded" model="hr.salary.rule">
+    <field name="code">OTHDED</field>
+    <field name="name">Other Deduction</field>
+    <field name="sequence">80</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('OTH_DED') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip.inp('OTH_DED')</field>
+  </record>
+  <record id="rule_ss_itm_factory_eobi_ee" model="hr.salary.rule">
+    <field name="code">EOBI_EE</field>
+    <field name="name">EOBI (Employee 1%)</field>
+    <field name="sequence">90</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -(payslip.rate('min_wage') * payslip.rate('eobi_ee_rate'))</field>
+  </record>
+  <record id="rule_ss_itm_factory_tax" model="hr.salary.rule">
+    <field name="code">TAX</field>
+    <field name="name">Income Tax (s.149)</field>
+    <field name="sequence">100</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip._pk_income_tax(categories.BASIC + categories.ALW) &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip._pk_income_tax(categories.BASIC + categories.ALW)</field>
+  </record>
+  <record id="rule_ss_itm_factory_taxable_annual" model="hr.salary.rule">
+    <field name="code">TAXABLE_ANNUAL</field>
+    <field name="name">Taxable (annualised)</field>
+    <field name="sequence">105</field>
+    <field name="category_id" ref="cat_info"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC + categories.ALW) * 12</field>
+  </record>
+  <record id="rule_ss_itm_factory_gross" model="hr.salary.rule">
+    <field name="code">GROSS</field>
+    <field name="name">Gross</field>
+    <field name="sequence">190</field>
+    <field name="category_id" ref="cat_gross"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+  </record>
+  <record id="rule_ss_itm_factory_net" model="hr.salary.rule">
+    <field name="code">NET</field>
+    <field name="name">Net</field>
+    <field name="sequence">200</field>
+    <field name="category_id" ref="cat_net"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.GROSS + categories.DED</field>
+  </record>
+  <record id="rule_ss_itm_factory_eobi_er" model="hr.salary.rule">
+    <field name="code">EOBI_ER</field>
+    <field name="name">EOBI (Employer 5%)</field>
+    <field name="sequence">210</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.rate('min_wage') * payslip.rate('eobi_er_rate')</field>
+  </record>
+  <record id="rule_ss_itm_factory_ss_er" model="hr.salary.rule">
+    <field name="code">SS_ER</field>
+    <field name="name">Social Security (Employer)</field>
+    <field name="sequence">211</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.rate('min_wage') * payslip.rate('ss_er_rate')</field>
+  </record>
+  <record id="rule_ss_itm_factory_gratuity" model="hr.salary.rule">
+    <field name="code">GRATUITY</field>
+    <field name="name">Gratuity Provision</field>
+    <field name="sequence">212</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_itm_factory"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC / 12</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_basic" model="hr.salary.rule">
+    <field name="code">BASIC</field>
+    <field name="name">Basic Salary</field>
+    <field name="sequence">10</field>
+    <field name="category_id" ref="cat_basic"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage * 0.50</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_hrent" model="hr.salary.rule">
+    <field name="code">HRENT</field>
+    <field name="name">House Rent</field>
+    <field name="sequence">20</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * 0.45</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_medical" model="hr.salary.rule">
+    <field name="code">MEDICAL</field>
+    <field name="name">Medical Allowance (exempt)</field>
+    <field name="sequence">30</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * payslip.rate('medical_exempt_pct_of_basic')</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_util" model="hr.salary.rule">
+    <field name="code">UTIL</field>
+    <field name="name">Utilities Allowance</field>
+    <field name="sequence">40</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * 0.10</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_convey" model="hr.salary.rule">
+    <field name="code">CONVEY</field>
+    <field name="name">Conveyance (balancing)</field>
+    <field name="sequence">50</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage - categories.BASIC - categories.ALW</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_bonus" model="hr.salary.rule">
+    <field name="code">BONUS</field>
+    <field name="name">Bonus</field>
+    <field name="sequence">60</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('BONUS') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.inp('BONUS')</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_pf_ee" model="hr.salary.rule">
+    <field name="code">PF_EE</field>
+    <field name="name">Provident Fund (Employee)</field>
+    <field name="sequence">70</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = employee.pk_pf_member</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -(categories.BASIC * payslip.rate('pf_rate'))</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_othded" model="hr.salary.rule">
+    <field name="code">OTHDED</field>
+    <field name="name">Other Deduction</field>
+    <field name="sequence">80</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('OTH_DED') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip.inp('OTH_DED')</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_eobi_ee" model="hr.salary.rule">
+    <field name="code">EOBI_EE</field>
+    <field name="name">EOBI (Employee 1%)</field>
+    <field name="sequence">90</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -(payslip.rate('min_wage') * payslip.rate('eobi_ee_rate'))</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_tax" model="hr.salary.rule">
+    <field name="code">TAX</field>
+    <field name="name">Income Tax (s.149)</field>
+    <field name="sequence">100</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip._pk_income_tax(categories.BASIC + categories.ALW - categories.BASIC * payslip.rate('medical_exempt_pct_of_basic')) &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip._pk_income_tax(categories.BASIC + categories.ALW - categories.BASIC * payslip.rate('medical_exempt_pct_of_basic'))</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_taxable_annual" model="hr.salary.rule">
+    <field name="code">TAXABLE_ANNUAL</field>
+    <field name="name">Taxable (annualised)</field>
+    <field name="sequence">105</field>
+    <field name="category_id" ref="cat_info"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC + categories.ALW - categories.BASIC * payslip.rate('medical_exempt_pct_of_basic')) * 12</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_gross" model="hr.salary.rule">
+    <field name="code">GROSS</field>
+    <field name="name">Gross</field>
+    <field name="sequence">190</field>
+    <field name="category_id" ref="cat_gross"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_net" model="hr.salary.rule">
+    <field name="code">NET</field>
+    <field name="name">Net</field>
+    <field name="sequence">200</field>
+    <field name="category_id" ref="cat_net"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.GROSS + categories.DED</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_pf_er" model="hr.salary.rule">
+    <field name="code">PF_ER</field>
+    <field name="name">Provident Fund (Employer)</field>
+    <field name="sequence">210</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = employee.pk_pf_member</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * payslip.rate('pf_rate')</field>
+  </record>
+  <record id="rule_ss_fsl_whitecollar_eobi_er" model="hr.salary.rule">
+    <field name="code">EOBI_ER</field>
+    <field name="name">EOBI (Employer 5%)</field>
+    <field name="sequence">211</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_fsl_whitecollar"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.rate('min_wage') * payslip.rate('eobi_er_rate')</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_basic" model="hr.salary.rule">
+    <field name="code">BASIC</field>
+    <field name="name">Basic Salary</field>
+    <field name="sequence">10</field>
+    <field name="category_id" ref="cat_basic"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage * 0.60</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_hrent" model="hr.salary.rule">
+    <field name="code">HRENT</field>
+    <field name="name">House Rent</field>
+    <field name="sequence">20</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * 0.45</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_medical" model="hr.salary.rule">
+    <field name="code">MEDICAL</field>
+    <field name="name">Medical Allowance (exempt)</field>
+    <field name="sequence">30</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * payslip.rate('medical_exempt_pct_of_basic')</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_shift" model="hr.salary.rule">
+    <field name="code">SHIFT</field>
+    <field name="name">Shift Allowance</field>
+    <field name="sequence">40</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('SHIFT_ALW') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.inp('SHIFT_ALW')</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_comm" model="hr.salary.rule">
+    <field name="code">COMM</field>
+    <field name="name">Commission</field>
+    <field name="sequence">50</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('COMM') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.inp('COMM')</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_absent" model="hr.salary.rule">
+    <field name="code">ABSENT</field>
+    <field name="name">Absence Deduction</field>
+    <field name="sequence">70</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('ABSENT_D') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -((version.wage / payslip.rate('monthly_days')) * payslip.inp('ABSENT_D'))</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_pf_ee" model="hr.salary.rule">
+    <field name="code">PF_EE</field>
+    <field name="name">Provident Fund (Employee)</field>
+    <field name="sequence">75</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = employee.pk_pf_member</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -(categories.BASIC * payslip.rate('pf_rate'))</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_othded" model="hr.salary.rule">
+    <field name="code">OTHDED</field>
+    <field name="name">Other Deduction</field>
+    <field name="sequence">80</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('OTH_DED') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip.inp('OTH_DED')</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_eobi_ee" model="hr.salary.rule">
+    <field name="code">EOBI_EE</field>
+    <field name="name">EOBI (Employee 1%)</field>
+    <field name="sequence">90</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -(payslip.rate('min_wage') * payslip.rate('eobi_ee_rate'))</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_tax" model="hr.salary.rule">
+    <field name="code">TAX</field>
+    <field name="name">Income Tax (s.149)</field>
+    <field name="sequence">100</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip._pk_income_tax(categories.BASIC + categories.ALW - categories.BASIC * payslip.rate('medical_exempt_pct_of_basic')) &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip._pk_income_tax(categories.BASIC + categories.ALW - categories.BASIC * payslip.rate('medical_exempt_pct_of_basic'))</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_taxable_annual" model="hr.salary.rule">
+    <field name="code">TAXABLE_ANNUAL</field>
+    <field name="name">Taxable (annualised)</field>
+    <field name="sequence">105</field>
+    <field name="category_id" ref="cat_info"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC + categories.ALW - categories.BASIC * payslip.rate('medical_exempt_pct_of_basic')) * 12</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_gross" model="hr.salary.rule">
+    <field name="code">GROSS</field>
+    <field name="name">Gross</field>
+    <field name="sequence">190</field>
+    <field name="category_id" ref="cat_gross"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_net" model="hr.salary.rule">
+    <field name="code">NET</field>
+    <field name="name">Net</field>
+    <field name="sequence">200</field>
+    <field name="category_id" ref="cat_net"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.GROSS + categories.DED</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_pf_er" model="hr.salary.rule">
+    <field name="code">PF_ER</field>
+    <field name="name">Provident Fund (Employer)</field>
+    <field name="sequence">210</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = employee.pk_pf_member</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC * payslip.rate('pf_rate')</field>
+  </record>
+  <record id="rule_ss_mbs_callcentre_eobi_er" model="hr.salary.rule">
+    <field name="code">EOBI_ER</field>
+    <field name="name">EOBI (Employer 5%)</field>
+    <field name="sequence">211</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_mbs_callcentre"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = payslip.rate('min_wage') * payslip.rate('eobi_er_rate')</field>
+  </record>
+  <record id="rule_ss_grl_retail_basic" model="hr.salary.rule">
+    <field name="code">BASIC</field>
+    <field name="name">Basic Salary</field>
+    <field name="sequence">10</field>
+    <field name="category_id" ref="cat_basic"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage * 0.60</field>
+  </record>
+  <record id="rule_ss_grl_retail_hra" model="hr.salary.rule">
+    <field name="code">HRA</field>
+    <field name="name">Housing Allowance</field>
+    <field name="sequence">20</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage * 0.25</field>
+  </record>
+  <record id="rule_ss_grl_retail_trans" model="hr.salary.rule">
+    <field name="code">TRANS</field>
+    <field name="name">Transport Allowance</field>
+    <field name="sequence">30</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage * 0.10</field>
+  </record>
+  <record id="rule_ss_grl_retail_othalw" model="hr.salary.rule">
+    <field name="code">OTHALW</field>
+    <field name="name">Other Allowance</field>
+    <field name="sequence">40</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = version.wage * 0.05</field>
+  </record>
+  <record id="rule_ss_grl_retail_ot125" model="hr.salary.rule">
+    <field name="code">OT125</field>
+    <field name="name">Overtime @1.25x</field>
+    <field name="sequence">50</field>
+    <field name="category_id" ref="cat_alw"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('OT_H') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC / payslip.rate('monthly_days') / 8) * payslip.rate('ot_multiplier') * payslip.inp('OT_H')</field>
+  </record>
+  <record id="rule_ss_grl_retail_absent" model="hr.salary.rule">
+    <field name="code">ABSENT</field>
+    <field name="name">Unpaid Leave Deduction</field>
+    <field name="sequence">70</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('ABSENT_D') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -((version.wage / payslip.rate('monthly_days')) * payslip.inp('ABSENT_D'))</field>
+  </record>
+  <record id="rule_ss_grl_retail_othded" model="hr.salary.rule">
+    <field name="code">OTHDED</field>
+    <field name="name">Other Deduction</field>
+    <field name="sequence">80</field>
+    <field name="category_id" ref="cat_ded"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">python</field>
+    <field name="condition_python">result = payslip.inp('OTH_DED') &gt; 0</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = -payslip.inp('OTH_DED')</field>
+  </record>
+  <record id="rule_ss_grl_retail_taxable_annual" model="hr.salary.rule">
+    <field name="code">TAXABLE_ANNUAL</field>
+    <field name="name">Taxable (annualised)</field>
+    <field name="sequence">105</field>
+    <field name="category_id" ref="cat_info"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC + categories.ALW) * 12</field>
+  </record>
+  <record id="rule_ss_grl_retail_gross" model="hr.salary.rule">
+    <field name="code">GROSS</field>
+    <field name="name">Gross</field>
+    <field name="sequence">190</field>
+    <field name="category_id" ref="cat_gross"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+  </record>
+  <record id="rule_ss_grl_retail_net" model="hr.salary.rule">
+    <field name="code">NET</field>
+    <field name="name">Net</field>
+    <field name="sequence">200</field>
+    <field name="category_id" ref="cat_net"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = categories.GROSS + categories.DED</field>
+  </record>
+  <record id="rule_ss_grl_retail_eosb" model="hr.salary.rule">
+    <field name="code">EOSB</field>
+    <field name="name">End of Service Provision</field>
+    <field name="sequence">210</field>
+    <field name="category_id" ref="cat_comp"/>
+    <field name="struct_id" ref="struct_ss_grl_retail"/>
+    <field name="appears_on_payslip" eval="False"/>
+    <field name="condition_select">none</field>
+    <field name="amount_select">code</field>
+    <field name="amount_python_compute">result = (categories.BASIC / 365) * payslip.rate('eosb_days_per_year')</field>
+  </record>
+</odoo>

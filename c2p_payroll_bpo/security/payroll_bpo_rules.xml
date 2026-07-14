@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- EY Payroll Officer: only the clients assigned to them. Enforced here, not by hiding menus.
+         A GRL officer reading an ITM payslip must get AccessError (blueprint §6, tested). -->
+    <record id="rule_cycle_officer" model="ir.rule">
+        <field name="name">Cycle: officer sees assigned clients only</field>
+        <field name="model_id" ref="model_payroll_cycle"/>
+        <field name="groups" eval="[(4, ref('group_ey_payroll_officer'))]"/>
+        <field name="domain_force">[('company_id','in',user.assigned_client_ids.ids)]</field>
+    </record>
+    <record id="rule_config_officer" model="ir.rule">
+        <field name="name">Config: officer sees assigned clients only</field>
+        <field name="model_id" ref="model_payroll_client_config"/>
+        <field name="groups" eval="[(4, ref('group_ey_payroll_officer'))]"/>
+        <field name="domain_force">[('company_id','in',user.assigned_client_ids.ids)]</field>
+    </record>
+    <record id="rule_payslip_officer" model="ir.rule">
+        <field name="name">Payslip: officer sees assigned clients only</field>
+        <field name="model_id" ref="hr_payroll.model_hr_payslip"/>
+        <field name="groups" eval="[(4, ref('group_ey_payroll_officer'))]"/>
+        <field name="domain_force">[('company_id','in',user.assigned_client_ids.ids)]</field>
+    </record>
+
+    <!-- Managers: unrestricted across all clients. -->
+    <record id="rule_cycle_manager" model="ir.rule">
+        <field name="name">Cycle: manager sees all</field>
+        <field name="model_id" ref="model_payroll_cycle"/>
+        <field name="groups" eval="[(4, ref('group_ey_payroll_manager'))]"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+    </record>
+    <record id="rule_config_manager" model="ir.rule">
+        <field name="name">Config: manager sees all</field>
+        <field name="model_id" ref="model_payroll_client_config"/>
+        <field name="groups" eval="[(4, ref('group_ey_payroll_manager'))]"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+    </record>
+
+    <!-- Client HR: their own company only. -->
+    <record id="rule_cycle_client_hr" model="ir.rule">
+        <field name="name">Cycle: client HR own company</field>
+        <field name="model_id" ref="model_payroll_cycle"/>
+        <field name="groups" eval="[(4, ref('group_client_hr'))]"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+
+</odoo>

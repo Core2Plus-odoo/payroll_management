@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_rate_simulate_form" model="ir.ui.view">
+        <field name="name">payroll.rate.simulate.form</field>
+        <field name="model">payroll.rate.simulate</field>
+        <field name="arch" type="xml">
+            <form string="Simulate Draft Slabs">
+                <group>
+                    <field name="draft_version_id"/>
+                    <field name="payslip_run_id"/>
+                </group>
+                <field name="result_summary" readonly="1" nolabel="1"
+                       invisible="not result_summary"/>
+                <footer>
+                    <button name="action_simulate" type="object" string="Simulate" class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rate_simulate" model="ir.actions.act_window">
+        <field name="name">Simulate Rate Change</field>
+        <field name="res_model">payroll.rate.simulate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

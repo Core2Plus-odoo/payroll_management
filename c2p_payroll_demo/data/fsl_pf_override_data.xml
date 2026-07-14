@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+      Falcon Software runs a 10% PF vs the 8.33% country norm — a COMPANY override that proves the
+      resolver's company > country precedence. Effective 2026-07-01 (next tax year): the June-2026
+      validated payslips resolve the 8.33% norm, and loading this override does NOT alter them
+      (immutability, RATE_ENGINE.md §3). This is the deliberate divergence from the raw sheet's
+      2025-07-01 date, documented in docs/VERIFICATION_ODOO19.md §5.
+    -->
+    <record id="rate_pf_fsl_override" model="payroll.statutory.rate">
+        <field name="key">pf_rate</field><field name="value_num">0.10</field><field name="unit">ratio</field>
+        <field name="country_id" ref="base.pk"/><field name="company_id" ref="company_fsl"/>
+        <field name="date_from">2026-07-01</field><field name="state">active</field>
+        <field name="source_reference">FSL board resolution — company override, effective next tax year</field>
+    </record>
+
+    <!-- The audited change record behind it (sheet 12_rate_change_log). -->
+    <record id="rate_change_fsl_pf" model="payroll.rate.change">
+        <field name="model_touched">payroll.statutory.rate</field>
+        <field name="record_ref">pf_rate / FSL</field>
+        <field name="change">8.33% -> 10.00%</field>
+        <field name="effective_from">2026-07-01</field>
+        <field name="approved_by">client: Falcon HR</field>
+        <field name="reason">Client board resolution — company override</field>
+        <field name="impact">26 employees, +PKR 1.1m/yr employer cost</field>
+    </record>
+</odoo>

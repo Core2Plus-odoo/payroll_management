@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_batch_form" model="ir.ui.view">
+        <field name="name">payroll.import.batch.form</field>
+        <field name="model">payroll.import.batch</field>
+        <field name="arch" type="xml">
+            <form string="Import Batch">
+                <header>
+                    <button name="action_parse" type="object" string="Parse" class="btn-secondary"
+                            invisible="state not in ('draft','error')"/>
+                    <button name="action_validate" type="object" string="Validate (dry-run)"
+                            class="btn-primary" invisible="state in ('committed',)"/>
+                    <button name="action_commit" type="object" string="Commit"
+                            class="btn-primary" invisible="state != 'validated'"
+                            confirm="Commit these rows? Re-running is safe (idempotent)."/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="profile_id"/>
+                            <field name="period" placeholder="defaults to profile period"/>
+                        </group>
+                        <group>
+                            <field name="data_file" filename="filename"/>
+                            <field name="filename" invisible="1"/>
+                            <field name="row_count"/>
+                            <field name="error_count"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list decoration-danger="error" editable="0">
+                            <field name="row_index"/>
+                            <field name="emp_code"/>
+                            <field name="values_json"/>
+                            <field name="error"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_import_batch_list" model="ir.ui.view">
+        <field name="name">payroll.import.batch.list</field>
+        <field name="model">payroll.import.batch</field>
+        <field name="arch" type="xml">
+            <list string="Import Batches" decoration-danger="state=='error'" decoration-success="state=='committed'">
+                <field name="name"/><field name="client_id"/><field name="period"/>
+                <field name="row_count"/><field name="error_count"/><field name="state"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_import_batch" model="ir.actions.act_window">
+        <field name="name">Import Batches</field>
+        <field name="res_model">payroll.import.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_monthly_input_list" model="ir.ui.view">
+        <field name="name">payroll.monthly.input.list</field>
+        <field name="model">payroll.monthly.input</field>
+        <field name="arch" type="xml">
+            <list string="Monthly Inputs">
+                <field name="client_id"/><field name="period"/><field name="emp_code"/>
+                <field name="input_code"/><field name="value"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_monthly_input" model="ir.actions.act_window">
+        <field name="name">Committed Monthly Inputs</field>
+        <field name="res_model">payroll.monthly.input</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

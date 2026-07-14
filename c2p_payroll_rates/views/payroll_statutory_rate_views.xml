@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_statutory_rate_list" model="ir.ui.view">
+        <field name="name">payroll.statutory.rate.list</field>
+        <field name="model">payroll.statutory.rate</field>
+        <field name="arch" type="xml">
+            <list string="Statutory Rates" decoration-muted="state=='archived'"
+                  decoration-warning="state=='draft'">
+                <field name="key"/>
+                <field name="value_num"/>
+                <field name="value_char"/>
+                <field name="unit"/>
+                <field name="country_id"/>
+                <field name="province"/>
+                <field name="company_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+                <field name="source_reference" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_statutory_rate_form" model="ir.ui.view">
+        <field name="name">payroll.statutory.rate.form</field>
+        <field name="model">payroll.statutory.rate</field>
+        <field name="arch" type="xml">
+            <form string="Statutory Rate">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="key"/>
+                            <field name="value_num"/>
+                            <field name="value_char"/>
+                            <field name="unit"/>
+                        </group>
+                        <group>
+                            <field name="country_id"/>
+                            <field name="province"/>
+                            <field name="company_id"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="source_reference"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_statutory_rate_search" model="ir.ui.view">
+        <field name="name">payroll.statutory.rate.search</field>
+        <field name="model">payroll.statutory.rate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="key"/>
+                <field name="country_id"/>
+                <field name="company_id"/>
+                <filter name="active" string="In force" domain="[('state','=','active')]"/>
+                <filter name="archived" string="Archived" domain="[('state','=','archived')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="grp_key" string="Key" context="{'group_by':'key'}"/>
+                    <filter name="grp_country" string="Country" context="{'group_by':'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_statutory_rate" model="ir.actions.act_window">
+        <field name="name">Statutory Rates</field>
+        <field name="res_model">payroll.statutory.rate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="stage_data_collection" model="payroll.cycle.stage"><field name="name">Data Collection</field><field name="sequence">10</field></record>
+    <record id="stage_data_received" model="payroll.cycle.stage"><field name="name">Data Received</field><field name="sequence">20</field></record>
+    <record id="stage_validated" model="payroll.cycle.stage"><field name="name">Validated</field><field name="sequence">30</field></record>
+    <record id="stage_computed" model="payroll.cycle.stage"><field name="name">Payslips Computed</field><field name="sequence">40</field></record>
+    <record id="stage_client_review" model="payroll.cycle.stage"><field name="name">Client Review</field><field name="sequence">50</field></record>
+    <record id="stage_client_approved" model="payroll.cycle.stage"><field name="name">Client Approved</field><field name="sequence">60</field></record>
+    <record id="stage_paid" model="payroll.cycle.stage"><field name="name">Paid</field><field name="sequence">70</field></record>
+    <record id="stage_posted" model="payroll.cycle.stage"><field name="name">Posted</field><field name="sequence">80</field></record>
+    <record id="stage_closed" model="payroll.cycle.stage"><field name="name">Closed</field><field name="sequence">90</field><field name="fold">1</field><field name="is_done">1</field></record>
+</odoo>

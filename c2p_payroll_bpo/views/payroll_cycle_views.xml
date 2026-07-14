@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_cycle_form" model="ir.ui.view">
+        <field name="name">payroll.cycle.form</field>
+        <field name="model">payroll.cycle</field>
+        <field name="arch" type="xml">
+            <form string="Payroll Cycle">
+                <header>
+                    <button name="action_generate_payslips" type="object" string="Generate Payslips"
+                            class="btn-primary" invisible="payslip_run_id"/>
+                    <button name="action_recompute" type="object" string="Recompute"
+                            invisible="not payslip_run_id"/>
+                    <button name="action_validate" type="object" string="Validate"
+                            invisible="not payslip_run_id"/>
+                    <button name="action_post" type="object" string="Post"
+                            invisible="not payslip_run_id"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': 1}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_batch" type="object" class="oe_stat_button"
+                                icon="fa-money" invisible="not payslip_run_id">
+                            <field name="payslip_count" widget="statinfo" string="Payslips"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="config_id"/>
+                            <field name="company_id"/>
+                            <field name="structure_id"/>
+                            <field name="period"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="sla_due_date"/>
+                            <field name="sla_state" decoration-danger="sla_state=='breached'"
+                                   decoration-warning="sla_state=='due_soon'"
+                                   decoration-success="sla_state=='on_track'"/>
+                            <field name="net_total" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cycle_kanban" model="ir.ui.view">
+        <field name="name">payroll.cycle.kanban</field>
+        <field name="model">payroll.cycle</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column">
+                <field name="sla_state"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_card #{record.sla_state.raw_value == 'breached' ? 'oe_kanban_color_1' : ''}">
+                            <div class="o_kanban_record_title"><field name="company_id"/></div>
+                            <div><field name="period"/> · <field name="payslip_count"/> payslips</div>
+                            <div>
+                                <field name="sla_state" widget="label_selection"
+                                       options="{'classes': {'breached': 'danger', 'due_soon': 'warning', 'on_track': 'success'}}"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_cycle_list" model="ir.ui.view">
+        <field name="name">payroll.cycle.list</field>
+        <field name="model">payroll.cycle</field>
+        <field name="arch" type="xml">
+            <list string="Payroll Cycles" decoration-danger="sla_state=='breached'"
+                  decoration-warning="sla_state=='due_soon'">
+                <field name="company_id"/>
+                <field name="period"/>
+                <field name="stage_id"/>
+                <field name="payslip_count"/>
+                <field name="net_total"/>
+                <field name="sla_due_date"/>
+                <field name="sla_state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_cycle" model="ir.actions.act_window">
+        <field name="name">Payroll Cycles</field>
+        <field name="res_model">payroll.cycle</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+</odoo>
