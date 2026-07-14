@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+      Pakistan s.149 salaried slabs as effective-dated versions in the rate engine.
+      TY2025 archived · TY2026 ACTIVE (placeholder, FA2024 figures) · TY2027 DRAFT (hypothetical,
+      exists only to demo draft->simulate->activate). Source: EY_Payroll_Master_Data.xlsx sheet 10.
+      PLACEHOLDER — replace TY2026 with gazetted FA2025 figures before any client sees a number.
+    -->
+
+    <!-- ============ TY2025 (archived) ============ -->
+    <record id="slab_ver_pk_ty2025" model="payroll.tax.slab.version">
+        <field name="code">PK-TY2025</field><field name="name">Pakistan s.149 — TY2025</field>
+        <field name="tax_year">2025</field><field name="country_id" ref="base.pk"/>
+        <field name="date_from">2024-07-01</field><field name="date_to">2025-06-30</field>
+        <field name="state">archived</field>
+        <field name="source_reference">Finance Act 2024, s.149 salaried slabs</field>
+    </record>
+    <record id="slab_ty2025_1" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2025"/><field name="lower_limit">0</field><field name="upper_limit">600000</field><field name="base_tax">0</field><field name="rate_on_excess">0</field></record>
+    <record id="slab_ty2025_2" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2025"/><field name="lower_limit">600000</field><field name="upper_limit">1200000</field><field name="base_tax">0</field><field name="rate_on_excess">0.05</field></record>
+    <record id="slab_ty2025_3" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2025"/><field name="lower_limit">1200000</field><field name="upper_limit">2200000</field><field name="base_tax">30000</field><field name="rate_on_excess">0.15</field></record>
+    <record id="slab_ty2025_4" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2025"/><field name="lower_limit">2200000</field><field name="upper_limit">3200000</field><field name="base_tax">180000</field><field name="rate_on_excess">0.25</field></record>
+    <record id="slab_ty2025_5" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2025"/><field name="lower_limit">3200000</field><field name="upper_limit">4100000</field><field name="base_tax">430000</field><field name="rate_on_excess">0.3</field></record>
+    <record id="slab_ty2025_6" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2025"/><field name="lower_limit">4100000</field><field name="base_tax">700000</field><field name="rate_on_excess">0.35</field></record>
+
+    <!-- ============ TY2026 (ACTIVE) — placeholder, FA2024 figures ============ -->
+    <record id="slab_ver_pk_ty2026" model="payroll.tax.slab.version">
+        <field name="code">PK-TY2026</field><field name="name">Pakistan s.149 — TY2026 (PLACEHOLDER)</field>
+        <field name="tax_year">2026</field><field name="country_id" ref="base.pk"/>
+        <field name="date_from">2025-07-01</field><field name="date_to">2026-06-30</field>
+        <field name="state">active</field>
+        <field name="source_reference">PLACEHOLDER — copied from FA2024. REPLACE with gazetted FA2025 figures.</field>
+    </record>
+    <record id="slab_ty2026_1" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2026"/><field name="lower_limit">0</field><field name="upper_limit">600000</field><field name="base_tax">0</field><field name="rate_on_excess">0</field></record>
+    <record id="slab_ty2026_2" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2026"/><field name="lower_limit">600000</field><field name="upper_limit">1200000</field><field name="base_tax">0</field><field name="rate_on_excess">0.05</field></record>
+    <record id="slab_ty2026_3" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2026"/><field name="lower_limit">1200000</field><field name="upper_limit">2200000</field><field name="base_tax">30000</field><field name="rate_on_excess">0.15</field></record>
+    <record id="slab_ty2026_4" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2026"/><field name="lower_limit">2200000</field><field name="upper_limit">3200000</field><field name="base_tax">180000</field><field name="rate_on_excess">0.25</field></record>
+    <record id="slab_ty2026_5" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2026"/><field name="lower_limit">3200000</field><field name="upper_limit">4100000</field><field name="base_tax">430000</field><field name="rate_on_excess">0.3</field></record>
+    <record id="slab_ty2026_6" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2026"/><field name="lower_limit">4100000</field><field name="base_tax">700000</field><field name="rate_on_excess">0.35</field></record>
+
+    <!-- ============ TY2027 (DRAFT) — hypothetical, simulation only ============ -->
+    <record id="slab_ver_pk_ty2027" model="payroll.tax.slab.version">
+        <field name="code">PK-TY2027-DRAFT</field><field name="name">Pakistan s.149 — TY2027 (DRAFT / hypothetical)</field>
+        <field name="tax_year">2027</field><field name="country_id" ref="base.pk"/>
+        <field name="date_from">2026-07-01</field><field name="date_to">2027-06-30</field>
+        <field name="state">draft</field>
+        <field name="source_reference">HYPOTHETICAL — exists only to demo draft -> simulate -> activate. Not a forecast.</field>
+    </record>
+    <record id="slab_ty2027_1" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2027"/><field name="lower_limit">0</field><field name="upper_limit">700000</field><field name="base_tax">0</field><field name="rate_on_excess">0</field></record>
+    <record id="slab_ty2027_2" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2027"/><field name="lower_limit">700000</field><field name="upper_limit">1400000</field><field name="base_tax">0</field><field name="rate_on_excess">0.025</field></record>
+    <record id="slab_ty2027_3" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2027"/><field name="lower_limit">1400000</field><field name="upper_limit">2400000</field><field name="base_tax">17500</field><field name="rate_on_excess">0.125</field></record>
+    <record id="slab_ty2027_4" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2027"/><field name="lower_limit">2400000</field><field name="upper_limit">3400000</field><field name="base_tax">142500</field><field name="rate_on_excess">0.225</field></record>
+    <record id="slab_ty2027_5" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2027"/><field name="lower_limit">3400000</field><field name="upper_limit">4400000</field><field name="base_tax">367500</field><field name="rate_on_excess">0.275</field></record>
+    <record id="slab_ty2027_6" model="payroll.tax.slab"><field name="version_id" ref="slab_ver_pk_ty2027"/><field name="lower_limit">4400000</field><field name="base_tax">642500</field><field name="rate_on_excess">0.325</field></record>
+
+</odoo>

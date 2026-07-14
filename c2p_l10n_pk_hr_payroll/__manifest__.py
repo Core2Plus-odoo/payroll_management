@@ -8,13 +8,10 @@
     "depends": ["hr_payroll", "hr_payroll_account", "c2p_payroll_rates"],
     "data": [
         "security/ir.model.access.csv",
-        "data/pk_tax_slab_data.xml",          # TY2026 slab VERSION — data, loaded into the rate engine
-        "data/pk_statutory_rate_data.xml",    # min wage (per province), EOBI %, PF %, divisors
         "data/hr_payroll_structure_type_data.xml",
-        "data/hr_salary_rule_category_data.xml",
-        "views/pk_tax_slab_views.xml",
+        "data/pk_statutory_rate_data.xml",    # min wage (per province), EOBI %, PF %, divisors, surcharge
+        "data/pk_tax_slab_data.xml",          # TY2025/26/27 slab VERSIONS in the rate engine
         "views/hr_employee_views.xml",
-        "views/res_config_settings_views.xml",
     ],
     "installable": True,
     # GAP G4 — SCOPE PENDING re-verification on Odoo 19. See docs/VERIFICATION_ODOO19.md §4.
