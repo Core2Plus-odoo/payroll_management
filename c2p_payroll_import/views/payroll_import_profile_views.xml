@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_profile_form" model="ir.ui.view">
+        <field name="name">payroll.import.profile.form</field>
+        <field name="model">payroll.import.profile</field>
+        <field name="arch" type="xml">
+            <form string="Import Profile">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="client_id"/>
+                            <field name="doc_type"/>
+                            <field name="period"/>
+                        </group>
+                        <group>
+                            <field name="sheet_name"/>
+                            <field name="header_row"/>
+                            <field name="data_start_row"/>
+                            <field name="col_offset"/>
+                            <field name="emp_code_prefix"/>
+                        </group>
+                    </group>
+                    <field name="mapping_line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="source_header"/>
+                            <field name="target_field"/>
+                            <field name="transform"/>
+                            <field name="transform_arg"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_import_profile_list" model="ir.ui.view">
+        <field name="name">payroll.import.profile.list</field>
+        <field name="model">payroll.import.profile</field>
+        <field name="arch" type="xml">
+            <list string="Import Profiles">
+                <field name="name"/><field name="client_id"/><field name="doc_type"/><field name="period"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_import_profile" model="ir.actions.act_window">
+        <field name="name">Import Profiles</field>
+        <field name="res_model">payroll.import.profile</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

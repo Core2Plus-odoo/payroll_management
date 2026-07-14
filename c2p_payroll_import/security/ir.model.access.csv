@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_profile_user,import.profile.user,model_payroll_import_profile,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_import_mapping_user,import.mapping.user,model_payroll_import_mapping_line,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_import_batch_user,import.batch.user,model_payroll_import_batch,hr_payroll.group_hr_payroll_user,1,1,1,0
+access_import_line_user,import.line.user,model_payroll_import_line,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_monthly_input_user,monthly.input.user,model_payroll_monthly_input,hr_payroll.group_hr_payroll_user,1,1,1,1
