@@ -52,24 +52,6 @@
         </field>
     </record>
 
-    <record id="view_statutory_rate_search" model="ir.ui.view">
-        <field name="name">payroll.statutory.rate.search</field>
-        <field name="model">payroll.statutory.rate</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="key"/>
-                <field name="country_id"/>
-                <field name="company_id"/>
-                <filter name="active" string="In force" domain="[('state','=','active')]"/>
-                <filter name="archived" string="Archived" domain="[('state','=','archived')]"/>
-                <group expand="0" string="Group By">
-                    <filter name="grp_key" string="Key" context="{'group_by':'key'}"/>
-                    <filter name="grp_country" string="Country" context="{'group_by':'country_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
     <record id="action_statutory_rate" model="ir.actions.act_window">
         <field name="name">Statutory Rates</field>
         <field name="res_model">payroll.statutory.rate</field>
