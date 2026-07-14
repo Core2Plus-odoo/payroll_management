@@ -35,9 +35,7 @@
                             <field name="date_start"/>
                             <field name="date_end"/>
                             <field name="sla_due_date"/>
-                            <field name="sla_state" decoration-danger="sla_state=='breached'"
-                                   decoration-warning="sla_state=='due_soon'"
-                                   decoration-success="sla_state=='on_track'"/>
+                            <field name="sla_state" widget="badge"/>
                             <field name="net_total" widget="monetary"/>
                             <field name="currency_id" invisible="1"/>
                         </group>
@@ -56,14 +54,9 @@
                 <field name="sla_state"/>
                 <templates>
                     <t t-name="card">
-                        <div t-attf-class="oe_kanban_card #{record.sla_state.raw_value == 'breached' ? 'oe_kanban_color_1' : ''}">
-                            <div class="o_kanban_record_title"><field name="company_id"/></div>
-                            <div><field name="period"/> · <field name="payslip_count"/> payslips</div>
-                            <div>
-                                <field name="sla_state" widget="label_selection"
-                                       options="{'classes': {'breached': 'danger', 'due_soon': 'warning', 'on_track': 'success'}}"/>
-                            </div>
-                        </div>
+                        <div class="o_kanban_record_title"><field name="company_id"/></div>
+                        <div><field name="period"/> · <field name="payslip_count"/> payslips</div>
+                        <div><field name="sla_state" widget="badge"/></div>
                     </t>
                 </templates>
             </kanban>
