@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_statutory_rate_user,statutory.rate.user,model_payroll_statutory_rate,hr_payroll.group_hr_payroll_user,1,0,0,0
+access_statutory_rate_mgr,statutory.rate.mgr,model_payroll_statutory_rate,group_payroll_rate_manager,1,1,1,1
+access_tax_slab_version_user,tax.slab.version.user,model_payroll_tax_slab_version,hr_payroll.group_hr_payroll_user,1,0,0,0
+access_tax_slab_version_mgr,tax.slab.version.mgr,model_payroll_tax_slab_version,group_payroll_rate_manager,1,1,1,1
+access_tax_slab_user,tax.slab.user,model_payroll_tax_slab,hr_payroll.group_hr_payroll_user,1,0,0,0
+access_tax_slab_mgr,tax.slab.mgr,model_payroll_tax_slab,group_payroll_rate_manager,1,1,1,1
+access_rate_change_user,rate.change.user,model_payroll_rate_change,hr_payroll.group_hr_payroll_user,1,0,0,0
+access_rate_change_mgr,rate.change.mgr,model_payroll_rate_change,group_payroll_rate_manager,1,1,1,0
+access_rate_simulate_mgr,rate.simulate.mgr,model_payroll_rate_simulate,group_payroll_rate_manager,1,1,1,1

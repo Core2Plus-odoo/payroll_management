@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_payroll_rates_root" name="Rate Engine"
+              parent="hr_payroll.menu_hr_payroll_configuration" sequence="90"
+              groups="hr_payroll.group_hr_payroll_user"/>
+
+    <menuitem id="menu_statutory_rate" name="Statutory Rates"
+              parent="menu_payroll_rates_root" action="action_statutory_rate" sequence="10"/>
+    <menuitem id="menu_tax_slab_version" name="Tax Slab Versions"
+              parent="menu_payroll_rates_root" action="action_tax_slab_version" sequence="20"/>
+    <menuitem id="menu_rate_simulate" name="Simulate Rate Change"
+              parent="menu_payroll_rates_root" action="action_rate_simulate" sequence="30"
+              groups="group_payroll_rate_manager"/>
+    <menuitem id="menu_rate_change_log" name="Rate Change Log"
+              parent="menu_payroll_rates_root" action="action_rate_change_log" sequence="40"/>
+
+</odoo>

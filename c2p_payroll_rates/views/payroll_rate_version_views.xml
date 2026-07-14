@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tax_slab_version_list" model="ir.ui.view">
+        <field name="name">payroll.tax.slab.version.list</field>
+        <field name="model">payroll.tax.slab.version</field>
+        <field name="arch" type="xml">
+            <list string="Tax Slab Versions" decoration-muted="state=='archived'"
+                  decoration-warning="state=='draft'" decoration-success="state=='active'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="tax_year"/>
+                <field name="country_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tax_slab_version_form" model="ir.ui.view">
+        <field name="name">payroll.tax.slab.version.form</field>
+        <field name="model">payroll.tax.slab.version</field>
+        <field name="arch" type="xml">
+            <form string="Tax Slab Version">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-secondary"
+                            invisible="state != 'archived'"/>
+                    <widget name="web_ribbon" title="Draft — simulation only" bg_color="text-bg-warning"
+                            invisible="state != 'draft'"/>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="tax_year"/>
+                        </group>
+                        <group>
+                            <field name="country_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <field name="source_reference"/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="lower_limit"/>
+                            <field name="upper_limit"/>
+                            <field name="base_tax"/>
+                            <field name="rate_on_excess"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tax_slab_version" model="ir.actions.act_window">
+        <field name="name">Tax Slab Versions</field>
+        <field name="res_model">payroll.tax.slab.version</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_rate_change_log" model="ir.actions.act_window">
+        <field name="name">Rate Change Log</field>
+        <field name="res_model">payroll.rate.change</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_rate_change_list" model="ir.ui.view">
+        <field name="name">payroll.rate.change.list</field>
+        <field name="model">payroll.rate.change</field>
+        <field name="arch" type="xml">
+            <list string="Rate Changes">
+                <field name="changed_at"/>
+                <field name="changed_by"/>
+                <field name="model_touched"/>
+                <field name="record_ref"/>
+                <field name="change"/>
+                <field name="effective_from"/>
+                <field name="approved_by"/>
+                <field name="reason"/>
+                <field name="impact"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>
