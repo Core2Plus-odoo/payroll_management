@@ -1,0 +1,2 @@
+# Odoo.sh installs this automatically at build time (repo root).
+openpyxl>=3.1
