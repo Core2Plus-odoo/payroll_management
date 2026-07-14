@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- ITM attendance: headers on row 5, code '007' -> ITM-007, '-'/'' as zero, TOTAL/section rows skipped. -->
+    <record id="profile_itm_attendance" model="payroll.import.profile">
+        <field name="name">ITM — Attendance &amp; OT (June)</field>
+        <field name="client_id" ref="company_itm"/><field name="doc_type">attendance</field>
+        <field name="sheet_name">June-26</field><field name="header_row">5</field>
+        <field name="col_offset">0</field><field name="emp_code_prefix">ITM-</field><field name="period">2026-06</field>
+    </record>
+    <record id="map_itm_code" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_itm_attendance"/><field name="sequence">10</field><field name="source_header">Emp Code</field><field name="target_field">emp_code</field><field name="transform">prefix</field><field name="transform_arg">ITM-</field></record>
+    <record id="map_itm_ot" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_itm_attendance"/><field name="sequence">20</field><field name="source_header">OT Hrs</field><field name="target_field">OT_H</field><field name="transform">number_from_text</field></record>
+    <record id="map_itm_absent" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_itm_attendance"/><field name="sequence">30</field><field name="source_header">Absent</field><field name="target_field">ABSENT_D</field><field name="transform">number_from_text</field></record>
+    <record id="map_itm_fine" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_itm_attendance"/><field name="sequence">40</field><field name="source_header">Fine/Recovery (Rs.)</field><field name="target_field">OTH_DED</field><field name="transform">number_from_text</field></record>
+
+    <!-- FSL payroll input: data starts at column B (offset 1), 'Rs. 200,000', Y/N, spaced IBANs. -->
+    <record id="profile_fsl_input" model="payroll.import.profile">
+        <field name="name">FSL — Payroll Input (Jun)</field>
+        <field name="client_id" ref="company_fsl"/><field name="doc_type">payroll_input</field>
+        <field name="sheet_name">Sheet1</field><field name="header_row">6</field>
+        <field name="col_offset">1</field><field name="emp_code_prefix">FSL-</field><field name="period">2026-06</field>
+    </record>
+    <record id="map_fsl_code" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_fsl_input"/><field name="sequence">10</field><field name="source_header">Employee ID</field><field name="target_field">emp_code</field><field name="transform">prefix</field><field name="transform_arg">FSL-</field></record>
+    <record id="map_fsl_bonus" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_fsl_input"/><field name="sequence">20</field><field name="source_header">Bonus</field><field name="target_field">BONUS</field><field name="transform">number_from_text</field></record>
+    <record id="map_fsl_ded" model="payroll.import.mapping.line"><field name="profile_id" ref="profile_fsl_input"/><field name="sequence">30</field><field name="source_header">Deduction</field><field name="target_field">OTH_DED</field><field name="transform">number_from_text</field></record>
+</odoo>

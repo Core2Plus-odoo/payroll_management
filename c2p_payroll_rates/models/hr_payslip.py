@@ -26,6 +26,14 @@ class HrPayslip(models.Model):
         val = self.env["payroll.statutory.rate"].value_of(key, country.id, date, province, company)
         return val if val is not None else 0.0
 
+    def inp(self, code):
+        """Sum of this payslip's input lines with ``code`` (0.0 if none). Used by salary rules instead
+        of the sandbox ``inputs`` object so rule bodies are robust to the dict/BrowsableObject question
+        (VERIFICATION_ODOO19.md §9.2). Reads the already-loaded input_line_ids — no SQL, no loop."""
+        self.ensure_one()
+        lines = self.input_line_ids.filtered(lambda l: l.input_type_id.code == code)
+        return sum(lines.mapped("amount"))
+
     def slab_tax(self, annual_taxable):
         """Progressive tax on an annual taxable amount, using the slab version in force at period end."""
         self.ensure_one()
